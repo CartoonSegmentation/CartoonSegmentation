@@ -39,7 +39,8 @@ See run_segmentation.ipynb
 # Run 3d Kenburns
 
 
-https://github.com/AnimeIns/AnimeInstanceSegmentation/assets/151190467/92b33e10-b30f-4e97-9f2f-6156a0c9d694
+https://github.com/dmMaze/CartoonSegmentation/assets/51270320/503c87c3-39d7-40f8-88f9-3ead20e1e5c5
+
 
 
 Install cupy following https://docs.cupy.dev/en/stable/install.html  
