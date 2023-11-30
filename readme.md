@@ -27,7 +27,7 @@ Download models：
 ```bash
 huggingface-cli lfs-enable-largefiles .
 mkdir models
-git clone https://huggingface.co/motionsomething/AnimeInstanceSegmentation models/AnimeInstanceSegmentation
+git clone https://huggingface.co/dreMaz/AnimeInstanceSegmentation models/AnimeInstanceSegmentation
 
 
 ```
