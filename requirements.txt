@@ -1,0 +1,7 @@
+einops
+imageio
+git+https://github.com/cocodataset/panopticapi.git
+onnxruntime-gpu
+pytorch-lightning
+albumentations
+huggingface_hub

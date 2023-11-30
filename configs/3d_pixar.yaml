@@ -1,0 +1,40 @@
+onebyone: True
+style_prompt: '3D pixar style, <lora:xl_more_art-full-beta2:1.2>'
+niter: 1
+global_nprompt: 'bad_pictures,canvas frame,(high contrast:1.2).(over saturated:1.2),(glossy:1.1),high pass filter,weird colors,[out of frame],cropped,loweres,(worst quality:2),(low quality:2),(normal quality:2),lowers,watermark,text error,jpeg artifacts,signature,username,duplicate,((disfiguard)),((blurry)),((bad anatomy)),(((bad proportions))),((extra limbs)),cloned face,(((disfigured))),gross proportions,(malformed limbs),((missing arms)),((missing legs)),(((extra arms))),(((extra legs))),extra nipple,mutated hands,(fused fingers),(too many fingers),(((long neck))),ugly,tiling,poorly drawn hands,cross eyes,NSFW,Cleavage,Pubic Hair,Nudity,Naked vagina,tits,Au naturel,Text,censored,(((deformed))),poorly drawn face,mutated,(ugly),(extra limb),deformed iris,deformed pupils,(poorly drawn hands),missing limb,floating limbs,disconnected head,malformed hands,long neck,mutated hands and fingers,bad hands,missing fingers,extra belly button,bad proportions,cropped,mutation,poorly drawn,huge calf,bad hands,fused hand,smooth skin,morbid,mutilated,semi-realistic,missing hand,missing arms,disappearing arms,disappearing thigh,disappearing calf,missinf legs,disappearing legs,missing fingers,fused fingers,abnormal eye proportion,abnormal hands,abnormal legs,abnormal feet,abnormal fingers,long legs,long neck,drawing,painting,crayon,sketch,graphite,impressionist,noisy,blurry,soft,deformed,ugly,'
+
+url: http://127.0.0.1:7860/sdapi/v1/img2img
+random_seed: False
+denoising_strength: 0.75
+long_side: 1024
+save_dir: 'style/3d_pixar_fixseed'
+cache_masks_dir: style/cached_masks
+sd_params:
+
+  # prompt: 1girl, colored pencil
+  negative_prompt: nsfw
+  width: 1024
+  height: 576
+  steps: 25
+  cfg_scale: 7
+  seed: 0
+  sampler_name: "DPM++ SDE Karras"
+  alwayson_scripts: 
+    controlnet:
+      args: [
+        {
+            "input_image": "",
+            "module": "canny",
+            "model": "diffusers_xl_canny_mid [112a778d]",
+            "weight": 1,
+            "resize_mode": "Inner Fit (Scale to Fit)",
+            "lowvram": False,
+            # "processor_res": resolution,
+            # "threshold_a": 64,
+            # "threshold_b": 64,
+            # "guidance": 1,
+            # "guidance_start": 0,
+            "guidance_end": 1,
+            "pixel_perfect": True
+        }
+      ]

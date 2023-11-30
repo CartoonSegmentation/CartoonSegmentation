@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-load-image/5.16.0/load-image.all.min.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" />
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" />
+
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    </head>
+    <body style="background-color:#232323;">
+        <div style="left:50%; position:absolute; top:50%; transform:translate(-50%, -50%);">
+            <table style="margin:0px auto 0px auto; vertical-align:middle;">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div style="padding:40px 20px 40px 40px;">
+                                <div style="background-color:#1D1D1D; border:1px solid #2A2A2A; display:inline-block; width:480px; height:360px;">
+                                    <img id="from" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" />
+                                </div>
+                            </div>
+                            <div style="padding:40px 20px 40px 40px;">
+                                <div style="background-color:#1D1D1D; border:1px solid #2A2A2A; display:inline-block; width:480px; height:360px;">
+                                    <img id="to" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" />
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div style="padding:20px 20px 20px 20px; width:100px;">
+                                <button class="btn btn-primary" id="plause" style="display:inline-block; font-size:24px; padding:10px 20px 10px 20px; width:100%;"><i class="fa-solid fa-play"></i></button>
+                            </div>
+                        </td>
+                        <td>
+                            <div style="padding:40px 40px 40px 20px;">
+                                <div style="background-color:#1D1D1D; border:1px solid #2A2A2A; display:inline-block;">
+                                    <img src="/get_live" />
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div style="bottom:16px; position:fixed; right:16px;">
+            <button class="btn btn-primary" id="autozoom" style="font-size:14px; position:relative; z-index:2;"><i class="fa-solid fa-wand-magic"></i></button>
+            <button class="btn btn-primary" id="load" style="font-size:14px; position:relative;"><i class="fa-solid fa-folder-open"></i><input id="file" type="file" style="cursor:pointer; bottom:0px; height:100%; left:0px; opacity:0.0; position:absolute; right:0px; top:0px; width:100%; z-index:1;" /></button>
+            <a class="btn btn-primary" id="save" href="/get_result" target="_blank" style="font-size:14px; position:relative; z-index:2;"><i class="fa-solid fa-floppy-disk"></i></a>
+        </div>
+
+        <script type="text/javascript">
+            var objFrom = null;
+            var objTo = null;
+        </script>
+
+        <script type="text/javascript">
+            jQuery(window.document)
+                .on('keydown', function(objEvent) {
+                    if (objEvent.keyCode === 49) {
+                        console.log(JSON.stringify({
+                            'strFile': jQuery('#file').get(0).files[0].name,
+                            'objFrom': {
+                                'fltCenterU': objFrom.getData().x + (0.5 * objFrom.getData().width),
+                                'fltCenterV': objFrom.getData().y + (0.5 * objFrom.getData().height),
+                                'intCropWidth': objFrom.getData().width,
+                                'intCropHeight': objFrom.getData().height
+                            },
+                            'objTo': {
+                                'fltCenterU': objTo.getData().x + (0.5 * objTo.getData().width),
+                                'fltCenterV': objTo.getData().y + (0.5 * objTo.getData().height),
+                                'intCropWidth': objTo.getData().width,
+                                'intCropHeight': objTo.getData().height
+                            }
+                        }));
+                    }
+                })
+            ;
+
+            jQuery('#plause')
+                .on('click', function() {
+                    if (jQuery('#plause').find('i').hasClass('fa-play') === true) {
+                        jQuery('#plause').find('i').removeClass().addClass('fa-solid').addClass('fa-pause');
+                        jQuery.post('/update_mode', { 'strMode': 'automatic' });
+
+                    } else if (jQuery('#plause').find('i').hasClass('fa-pause') === true) {
+                        jQuery('#plause').find('i').removeClass().addClass('fa-solid').addClass('fa-play');
+                        jQuery.post('/update_mode', { 'strMode': 'manual' });
+
+                    }
+                })
+            ;
+
+            jQuery('#autozoom')
+                .on('click', function() {
+                    jQuery('#plause').find('i').removeClass().addClass('fa-solid').addClass('fa-play');
+                    jQuery.post('/update_mode', { 'strMode': 'manual' });
+
+                    jQuery.post('/autozoom', {}, function(objData) {
+                        objFrom.setData({
+                            'x': objData.objFrom.fltCenterU - (objData.objFrom.intCropWidth / 2.0),
+                            'y': objData.objFrom.fltCenterV - (objData.objFrom.intCropHeight / 2.0),
+                            'width': objData.objFrom.intCropWidth,
+                            'height': objData.objFrom.intCropHeight,
+                            'rotate': 0.0,
+                            'scaleX': 1.0,
+                            'scaleY': 1.0
+                        });
+
+                        objTo.setData({
+                            'x': objData.objTo.fltCenterU - (objData.objTo.intCropWidth / 2.0),
+                            'y': objData.objTo.fltCenterV - (objData.objTo.intCropHeight / 2.0),
+                            'width': objData.objTo.intCropWidth,
+                            'height': objData.objTo.intCropHeight,
+                            'rotate': 0.0,
+                            'scaleX': 1.0,
+                            'scaleY': 1.0
+                        });
+
+                        window.setTimeout(function() {
+                            jQuery('#plause').find('i').removeClass().addClass('fa-solid').addClass('fa-pause');
+                            jQuery.post('/update_mode', { 'strMode': 'automatic' });
+                        }, 500);
+                    });
+                })
+            ;
+
+            jQuery('#file')
+                .on('click', function(objEvent) {
+                    objEvent.stopPropagation();
+                })
+                .on('change', function(objEvent) {
+                    if (objEvent.target.files.length !== 1) {
+                        return;
+                    }
+
+                    loadImage(objEvent.target.files[0], function(objImage) {
+                        jQuery('#plause').find('i').removeClass().addClass('fa-solid').addClass('fa-play');
+                        jQuery.post('/update_mode', { 'strMode': 'manual' });
+
+                        jQuery('#from, #to')
+                            .attr('src', objImage.toDataURL())
+                        ;
+
+                        if (objFrom !== null) {
+                            objFrom.destroy();
+                        }
+
+                        if (objTo !== null) {
+                            objTo.destroy();
+                        }
+
+                        objFrom = new Cropper(jQuery('#from').get(0), {
+                            'aspectRatio': 4.0 / 3.0,
+                            'guides': false,
+                            'minCropBoxWidth': 120.0,
+                            'viewMode': 3,
+                            'zoomOnWheel': false,
+                            'ready': function() {
+                                objFrom.setData({
+                                    'x': (1024 - 900) / 2,
+                                    'y': (768 - 675) / 2,
+                                    'width': 900,
+                                    'height': 675,
+                                    'rotate': 0.0,
+                                    'scaleX': 1.0,
+                                    'scaleY': 1.0
+                                });
+
+                                objFrom.options.crop();
+                            },
+                            'crop': function() {
+                                jQuery('#plause').find('i').removeClass().addClass('fa-solid').addClass('fa-play');
+                                jQuery.post('/update_mode', { 'strMode': 'manual' });
+
+                                jQuery.post('/update_from', {
+                                    'fltCenterU': objFrom.getData().x + (0.5 * objFrom.getData().width),
+                                    'fltCenterV': objFrom.getData().y + (0.5 * objFrom.getData().height),
+                                    'intCropWidth': Math.round(objFrom.getData().width),
+                                    'intCropHeight': Math.round(objFrom.getData().height)
+                                });
+                            }
+                        });
+
+                        objTo = new Cropper(jQuery('#to').get(0), {
+                            'aspectRatio': 4.0 / 3.0,
+                            'guides': false,
+                            'minCropBoxWidth': 120.0,
+                            'viewMode': 3,
+                            'zoomOnWheel': false,
+                            'ready': function() {
+                                objTo.setData({
+                                    'x': (1024 - 900) / 2,
+                                    'y': (768 - 675) / 2,
+                                    'width': 900,
+                                    'height': 675,
+                                    'rotate': 0.0,
+                                    'scaleX': 1.0,
+                                    'scaleY': 1.0
+                                });
+
+                                objTo.options.crop();
+                            },
+                            'crop': function() {
+                                jQuery('#plause').find('i').removeClass().addClass('fa-solid').addClass('fa-play');
+                                jQuery.post('/update_mode', { 'strMode': 'manual' });
+
+                                jQuery.post('/update_to', {
+                                    'fltCenterU': objTo.getData().x + (0.5 * objTo.getData().width),
+                                    'fltCenterV': objTo.getData().y + (0.5 * objTo.getData().height),
+                                    'intCropWidth': Math.round(objTo.getData().width),
+                                    'intCropHeight': Math.round(objTo.getData().height)
+                                });
+                            }
+                        });
+
+                        jQuery.post('/load_image', {
+                            'strFile': objEvent.target.files[0].name,
+                            'strData': objImage.toDataURL()
+                        })
+                    }, {
+                        'canvas': true,
+                        'minWidth': 1024,
+                        'maxWidth': 1024,
+                        'minHeight': 768,
+                        'maxHeight': 768,
+                        'crop': true
+                    });
+                })
+                .parent()
+                    .on('click', function() {
+                        jQuery('#file').click();
+                    })
+                .end()
+            ;
+        </script>
+    </body>
+</html>
