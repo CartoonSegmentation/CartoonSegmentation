@@ -22,8 +22,6 @@ pip install -r requirements.txt
 
 ## Download models
 
-Download models：
-
 ```bash
 huggingface-cli lfs-enable-largefiles .
 mkdir models
