@@ -1,3 +1,4 @@
+git+https://github.com/lucasb-eyer/pydensecrf.git
 einops
 imageio
 git+https://github.com/cocodataset/panopticapi.git
