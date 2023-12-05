@@ -5,6 +5,8 @@ onnxruntime-gpu
 pytorch-lightning
 albumentations
 huggingface_hub
+omegaconf
+diffusers
 
 # For Web UI
 gradio
