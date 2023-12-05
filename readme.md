@@ -1,6 +1,24 @@
-# Preperation
+# CartoonSegmentation
 
-## Install Dependencies
+[![arXiv](https://img.shields.io/badge/arXiv-2307.04725-b31b1b.svg)](http://arxiv.org/abs/2312.01943)
+[![Project Page](https://img.shields.io/badge/Project-Website-green)](https://cartoonsegmentation.github.io/)
+
+<p float="center">
+  <img src="https://cartoonsegmentation.github.io/AnimeIns_files/teaser/teaser00.jpg" width="24%" />
+  <img src="https://cartoonsegmentation.github.io/AnimeIns_files/teaser/teaser01.jpg" width="24%" />
+  <img src="https://github.com/CartoonSegmentation/CartoonSegmentation/assets/51270320/10301ee4-09c1-45a9-8672-7e0a3cbd1c20" width="24%" />
+  <img src="https://cartoonsegmentation.github.io/AnimeIns_files/teaser/teaser03.jpg" width="24%" />
+  <img src="https://cartoonsegmentation.github.io/AnimeIns_files/teaser/teaser10.jpg" width="24%" />
+  <img src="https://cartoonsegmentation.github.io/AnimeIns_files/teaser/teaser11.jpg" width="24%" />
+  <img src="https://github.com/CartoonSegmentation/CartoonSegmentation/assets/51270320/602f8e5b-bec2-4f07-af50-b72d6411da70" width="24%" />
+  <img src="https://cartoonsegmentation.github.io/AnimeIns_files/teaser/teaser13.jpg" width="24%" />
+</p>
+
+Instance segmentation for cartoon/anime characters and some visual techniques building around it.
+
+## Preperation
+
+### Install Dependencies
 
 Install Python 3.10 and pytorch:
 
@@ -20,7 +38,7 @@ mim install mmdet
 pip install -r requirements.txt
 ```
 
-## Download models
+### Download models
 
 ```bash
 huggingface-cli lfs-enable-largefiles .
@@ -30,11 +48,11 @@ git clone https://huggingface.co/dreMaz/AnimeInstanceSegmentation models/AnimeIn
 
 ```
 
-# Run Segmentation
+## Run Segmentation
 
 See run_segmentation.ipynb
 
-# Run 3d Kenburns
+## Run 3d Kenburns
 
 
 https://github.com/dmMaze/CartoonSegmentation/assets/51270320/503c87c3-39d7-40f8-88f9-3ead20e1e5c5
@@ -56,7 +74,7 @@ and open http://localhost:8080 in your browser.
 Please read configs/3dkenburns.yaml for more advanced settings.
 
 
-## Better Inpainting using Stable-diffusion
+### Better Inpainting using Stable-diffusion
 
 To get better inpainting results with Stable-diffusion, you need to install stable-diffusion-webui first, and download the tagger: 
 ``` bash
@@ -65,7 +83,7 @@ git clone https://huggingface.co/SmilingWolf/wd-v1-4-swinv2-tagger-v2 models/wd-
 
 If you're on Windows, download compiled libs from https://github.com/AnimeIns/PyPatchMatch/releases/tag/v1.0 and save them to data/libs, otherwise, you need to compile patchmatch in order to run 3dkenburns or style editing:
 
-### Compile Patchmatch
+#### Compile Patchmatch
 
 ``` bash
 mkdir -P data/libs
@@ -87,7 +105,7 @@ Launch the stable-diffusion-webui with argument `--api` and set the base model t
 Finally, run 3dkenburns with pre-mentioned commands.
 
 
-# Run Style Editing
+## Run Style Editing
 It also requires stable-diffusion-webui, patchmatch, and the danbooru tagger, so please follow the `Run 3d Kenburns` and download/install these first.  
 Download [sd_xl_base_1.0_0.9vae](https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/blob/main/sd_xl_base_1.0_0.9vae.safetensors), style [lora](https://civitai.com/models/124347/xlmoreart-full-xlreal-enhancer) and [diffusers_xl_canny_mid](https://huggingface.co/lllyasviel/sd_control_collection/resolve/main/diffusers_xl_canny_mid.safetensors) and save them to corresponding directory in stable-diffusion-webui, launch stable-diffusion-webui with argument `--argment` and set `sd_xl_base_1.0_0.9vae` as base model, then run
 
