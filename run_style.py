@@ -87,7 +87,7 @@ if __name__ == '__main__':
     parser.add_argument('--infer-tagger', type=bool, default=True)
     parser.add_argument('--style-prompt', default='')
     parser.add_argument('--global-nprompt', default='')
-    parser.add_argument('--apply-bg-tagger', default=True)
+    parser.add_argument('--apply-bg-tagger', default=False)
     parser.add_argument('--apply-fg-tagger', default=True)
 
     args = parser.parse_args()
@@ -160,7 +160,7 @@ if __name__ == '__main__':
                     from animeinsseg.inpainting import patch_match
                     detector = AnimeInsSeg(args.detector_ckpt, device='cuda')
                     detector.init_tagger()
-                instances = detector.infer(img_path, output_type='numpy')
+                instances = detector.infer(img_path, output_type='numpy', infer_tags=True)
                 if not instances.is_empty:
                     prompts_dict = {}
                     for ii, mask in enumerate(instances.masks):
@@ -248,6 +248,7 @@ if __name__ == '__main__':
                     prompt = args.style_prompt + ','
                     if args.apply_fg_tagger:
                         prompt += fg_prompt + ','
+                    print(prompt)
                     prompt = prompt.strip(',')
 
                     output_img_b64 = run_sdinpaint(img_repainted, mask, data_inpaint, prompt=prompt, nprompt=nprompt, url=args.url, auth=auth)
