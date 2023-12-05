@@ -932,7 +932,8 @@ class KenBurnsPipeline:
                 'objFrom': objFrom
             }, cfg)
 
-            npy_frame_list = self.process_kenburns({
+            # Debug by Francis
+            npy_frame_list,_ = self.process_kenburns({
                 'fltSteps': np.linspace(0.0, 1.0, 75).tolist(),
                 'objFrom': objFrom,
                 'objTo': objTo,
@@ -1037,7 +1038,13 @@ class KenBurnsPipeline:
                 frames.append(frame)
             # end
             torch_gc()
-            return frames
+
+            # Debug by Francis
+            return\
+            [
+                frames,
+                objCommon,
+            ]
 
     
 import moviepy.editor

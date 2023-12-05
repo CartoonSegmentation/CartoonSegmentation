@@ -5,3 +5,6 @@ onnxruntime-gpu
 pytorch-lightning
 albumentations
 huggingface_hub
+
+# For Web UI
+gradio

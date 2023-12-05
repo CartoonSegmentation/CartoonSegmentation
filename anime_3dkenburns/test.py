@@ -119,7 +119,8 @@ def process_load(img_path: str, objCommon):
     objPlayback['objFrom'] = {'fltCenterU': intCropWidth / 2, 'fltCenterV': intCropHeight / 2, 'intCropWidth': intCropWidth, 'intCropHeight': intCropHeight} 
     objPlayback['objTo'] = {'fltCenterU': intCropWidth / 2 + im_w - intCropWidth, 'fltCenterV': intCropHeight / 2 + im_h - intCropHeight, 'intCropWidth': intCropWidth, 'intCropHeight': intCropHeight}
 
-    npyKenburns = process_kenburns({
+    # Debug by Francis
+    npyKenburns,_ = process_kenburns({
         'fltSteps': np.linspace(0.0, 1.0, 75).tolist(),
         'objFrom': objPlayback['objFrom'],
         'objTo': objPlayback['objTo'],

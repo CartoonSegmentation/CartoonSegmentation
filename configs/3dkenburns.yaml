@@ -2,9 +2,9 @@
 # python tools/run_kenburns.py --cfg configs/3dkenburns.yaml --verbose --input-img "examples/kenburns_lion.png"
 # python naive_interface.py --cfg configs/3dkenburns.yaml
 
-inpaint_type: ldm # or patchmatch, ldm for better result
+inpaint_type: default # or patchmatch, ldm for better result
 detector: animeinsseg
-depth_field: False
+depth_field: True
 
 # These are parameters to use default 3dkenburns
 # inpaint_type: default

@@ -155,7 +155,8 @@ def get_live():
             # end
 
             if str(fltTime) not in objPlayback['strCache']:
-                npyKenburns = KPIPE.process_kenburns({
+                # Debug by Francis
+                npyKenburns,_ = KPIPE.process_kenburns({
                     'fltSteps': [ fltTime ],
                     'objFrom': objPlayback['objFrom'],
                     'objTo': objPlayback['objTo'],
@@ -181,7 +182,8 @@ def get_result():
     print(objPlayback['objFrom'])
     print(objPlayback['objTo'])
 
-    npyKenburns = KPIPE.process_kenburns({
+    # Debug by Francis
+    npyKenburns,_ = KPIPE.process_kenburns({
         'fltSteps': np.linspace(0.0, 1.0, 75).tolist(),
         'objFrom': objPlayback['objFrom'],
         'objTo': objPlayback['objTo'],
