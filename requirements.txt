@@ -8,6 +8,7 @@ albumentations
 huggingface_hub
 omegaconf
 diffusers
+basicsr
 
 # For Web UI
 gradio
