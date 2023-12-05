@@ -1,6 +1,7 @@
 # CartoonSegmentation
 
 [![arXiv](https://img.shields.io/badge/arXiv-2307.04725-b31b1b.svg)](http://arxiv.org/abs/2312.01943)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/CartoonSegmentation/CartoonSegmentation/blob/main/Run%20Web%20UI%20from%20Workbook-CoLab.ipynb)
 [![Project Page](https://img.shields.io/badge/Project-Website-green)](https://cartoonsegmentation.github.io/)
 
 <p float="center">
