@@ -10,5 +10,9 @@ omegaconf
 diffusers
 basicsr
 
+# ?Pending
+flask
+h5py
+
 # For Web UI
 gradio
