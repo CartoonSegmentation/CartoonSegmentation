@@ -1,6 +1,6 @@
 # CartoonSegmentation
 
-[![arXiv](https://img.shields.io/badge/arXiv-2307.04725-b31b1b.svg)](http://arxiv.org/abs/2312.01943)
+[![arXiv](https://img.shields.io/badge/arXiv-2312.01943-<COLOR>)](http://arxiv.org/abs/2312.01943)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/CartoonSegmentation/CartoonSegmentation/blob/main/run_in_colab.ipynb)
 [![Project Page](https://img.shields.io/badge/Project-Website-green)](https://cartoonsegmentation.github.io/)
 
@@ -51,7 +51,13 @@ git clone https://huggingface.co/dreMaz/AnimeInstanceSegmentation models/AnimeIn
 
 ## Run Segmentation
 
-See run_segmentation.ipynb
+See `run_segmentation.ipynb``. 
+
+Besides, we have prepared a simple [Huggingface Space](https://huggingface.co/spaces/ljsabc/AnimeIns_CPU) for you to test with the segmentation on the browser. 
+
+![A workable demo](https://animeins.oss-cn-shenzhen.aliyuncs.com/imas.jpg)
+*Copyright BANDAI NAMCO Entertainment Inc., We believe this is a fair use for research and educational purpose only.*
+
 
 ## Run 3d Kenburns
 
