@@ -1,5 +1,8 @@
 # CartoonSegmentation
 
+Implementations of the paper _Instance-guided Cartoon Editing with a Large-scale Dataset_, including an instance segmentation for cartoon/anime characters and some visual techniques built around it.
+
+
 [![arXiv](https://img.shields.io/badge/arXiv-2312.01943-<COLOR>)](http://arxiv.org/abs/2312.01943)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/CartoonSegmentation/CartoonSegmentation/blob/main/run_in_colab.ipynb)
 [![Project Page](https://img.shields.io/badge/Project-Website-green)](https://cartoonsegmentation.github.io/)
@@ -15,7 +18,7 @@
   <img src="https://cartoonsegmentation.github.io/AnimeIns_files/teaser/teaser13.jpg" width="24%" />
 </p>
 
-Instance segmentation for cartoon/anime characters and some visual techniques building around it.
+
 
 ## Preperation
 
