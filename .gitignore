@@ -6,6 +6,7 @@ style
 *.ckpt
 *.mp4
 *.gif
+.DS_Store
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

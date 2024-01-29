@@ -3,6 +3,9 @@ import numpy as np
 import torch
 import os
 from torchvision.transforms import transforms
+from urllib.parse import urlparse
+from torch.hub import download_url_to_file, get_dir
+import ssl
 
 # AdelaiDepth/LeReS imports
 from .leres.depthmap import estimateleres, estimateboost
@@ -16,11 +19,45 @@ from .pix2pix.models.pix2pix4depth_model import Pix2Pix4DepthModel
 base_model_path = os.path.join("models", "leres")
 old_modeldir = os.path.dirname(os.path.realpath(__file__))
 
-remote_model_path_leres = "https://cloudstor.aarnet.edu.au/plus/s/lTIJF4vrvHCAI31/download"
+remote_model_path_leres = "https://huggingface.co/lllyasviel/Annotators/resolve/af19c34529d974eb965a00250f7b743431d56047/res101.pth"
 remote_model_path_pix2pix = "https://sfu.ca/~yagiz/CVPR21/latest_net_G.pth"
 
 model = None
 pix2pixmodel = None
+
+def load_file_from_url(url, model_dir=None, progress=True, file_name=None):
+    """Load file form http url, will download models if necessary.
+
+    Ref:https://github.com/1adrianb/face-alignment/blob/master/face_alignment/utils.py
+
+    Args:
+        url (str): URL to be downloaded.
+        model_dir (str): The path to save the downloaded model. Should be a full path. If None, use pytorch hub_dir.
+            Default: None.
+        progress (bool): Whether to show the download progress. Default: True.
+        file_name (str): The downloaded file name. If None, use the file name in the url. Default: None.
+
+    Returns:
+        str: The path to the downloaded file.
+    """
+    if model_dir is None:  # use the pytorch hub_dir
+        hub_dir = get_dir()
+        model_dir = os.path.join(hub_dir, 'checkpoints')
+
+    os.makedirs(model_dir, exist_ok=True)
+
+    parts = urlparse(url)
+    filename = os.path.basename(parts.path)
+    if file_name is not None:
+        filename = file_name
+    cached_file = os.path.abspath(os.path.join(model_dir, filename))
+    if not os.path.exists(cached_file):
+        print(f'Downloading: "{url}" to {cached_file}\n')
+        original_ctx = ssl._create_default_https_context
+        ssl._create_default_https_context = ssl._create_unverified_context  # https://stackoverflow.com/questions/50236117/scraping-ssl-certificate-verify-failed-error-for-http-en-wikipedia-org
+        download_url_to_file(url, cached_file, hash_prefix=None, progress=progress)
+        ssl._create_default_https_context = original_ctx
+    return cached_file
 
 def unload_leres_model():
     global model, pix2pixmodel
@@ -39,7 +76,7 @@ def apply_leres(input_image, thr_a: int = 0, thr_b: int = 0, boost: bool = False
         if os.path.exists(old_model_path):
             model_path = old_model_path
         elif not os.path.exists(model_path):
-            from basicsr.utils.download_util import load_file_from_url
+            # from basicsr.utils.download_util import load_file_from_url
             load_file_from_url(remote_model_path_leres, model_dir=base_model_path)
             os.rename(os.path.join(base_model_path, 'download'), model_path)
 
@@ -56,7 +93,7 @@ def apply_leres(input_image, thr_a: int = 0, thr_b: int = 0, boost: bool = False
     if boost and pix2pixmodel is None:
         pix2pixmodel_path = os.path.join(base_model_path, "latest_net_G.pth")
         if not os.path.exists(pix2pixmodel_path):
-            from basicsr.utils.download_util import load_file_from_url
+            # from basicsr.utils.download_util import load_file_from_url
             load_file_from_url(remote_model_path_pix2pix, model_dir=base_model_path)
 
         opt = TestOptions().parse()

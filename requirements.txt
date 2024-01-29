@@ -8,7 +8,6 @@ albumentations
 huggingface_hub
 omegaconf
 diffusers
-basicsr
 
 # ?Pending
 flask
