@@ -1,6 +1,7 @@
 git+https://github.com/lucasb-eyer/pydensecrf.git
 einops
 imageio
+imgaug
 git+https://github.com/cocodataset/panopticapi.git
 onnxruntime-gpu
 pytorch-lightning
