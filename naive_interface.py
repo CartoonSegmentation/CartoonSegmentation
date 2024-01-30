@@ -184,7 +184,7 @@ def get_result():
 
     # Debug by Francis
     npyKenburns,_ = KPIPE.process_kenburns({
-        'fltSteps': np.linspace(0.0, 1.0, 75).tolist(),
+        'fltSteps': np.linspace(0.0, 1.0, KCFG.num_frame).tolist(),
         'objFrom': objPlayback['objFrom'],
         'objTo': objPlayback['objTo'],
         'boolInpaint': True

@@ -4,13 +4,16 @@
 
 inpaint_type: default # or patchmatch, ldm for better result
 detector: animeinsseg
-depth_field: True
 
 # These are parameters to use default 3dkenburns
 # inpaint_type: default
 # default_depth_refine: True
 # detector: maskrcnn
 
+num_frame: 75
+playback: True
+dof_speed: 50
+depth_field: True
 
 max_size: 1024   # Output Video Resolution
 

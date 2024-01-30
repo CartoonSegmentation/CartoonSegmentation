@@ -38,4 +38,4 @@ if __name__ == '__main__':
         for ii, mask in enumerate(kcfg.stage_inpainted_masks):
             cv2.imwrite(f'tmp_stage_inpaint_mask_{ii}.png', mask)
 
-    npyframes2video(npy_frame_list, args.savep)
+    npyframes2video(npy_frame_list, args.savep, playback=kcfg.playback)

@@ -229,9 +229,12 @@ class KenBurnsConfig:
     inpaint_type: str = 'default'
     
     # kenburns field
+    num_frame: int = 75
+    playback: bool = True
     auto_zoom: bool = True
     focal: float = 1024 / 2.0
     baseline: float = 40.0
+    dof_speed: float = 50.
 
     depth_factor: int = 1
     lightness_factor: int = 13
@@ -934,7 +937,7 @@ class KenBurnsPipeline:
 
             # Debug by Francis
             npy_frame_list,_ = self.process_kenburns({
-                'fltSteps': np.linspace(0.0, 1.0, 75).tolist(),
+                'fltSteps': np.linspace(0.0, 1.0, cfg.num_frame).tolist(),
                 'objFrom': objFrom,
                 'objTo': objTo,
                 'boolInpaint': True
@@ -1028,7 +1031,7 @@ class KenBurnsPipeline:
                     depth_num_samples = 32
                     depth_factor = objCommon.depth_factor
 
-                    focal_int = 1/(1 + np.exp((0.5-fltStep) * 50))
+                    focal_int = 1/(1 + np.exp((0.5-fltStep) * objCommon.dof_speed))
                     focal_plane = focal_int * focalplane_end + (1-focal_int) * focalplane_start
                     frame = bokeh_blur(frame, depth_rendered, depth_num_samples, lightness_factor, focal_plane=focal_plane, use_cuda=True, depth_factor=depth_factor)
 
@@ -1049,8 +1052,9 @@ class KenBurnsPipeline:
     
 import moviepy.editor
 
-def npyframes2video(npy_frame_list: List[np.ndarray], video_save_path: str):
-    moviepy.editor.ImageSequenceClip(\
-        sequence=[ npyFrame[:, :, ::-1] for npyFrame in npy_frame_list \
-                  + list(reversed(npy_frame_list))[1:-1] ], fps=25).write_videofile(video_save_path, preset="placebo")
+def npyframes2video(npy_frame_list: List[np.ndarray], video_save_path: str, playback: bool = False):
+    sequence = [npyFrame[:, :, ::-1] for npyFrame in npy_frame_list]
+    if playback:
+        sequence += list(reversed(npy_frame_list))[1:-1]
+    moviepy.editor.ImageSequenceClip(sequence=sequence, fps=25).write_videofile(video_save_path, preset="placebo")
 
