@@ -10,6 +10,10 @@ huggingface_hub
 omegaconf
 diffusers
 
+basicsr
+numba
+imgaug
+moviepy
 # ?Pending
 flask
 h5py

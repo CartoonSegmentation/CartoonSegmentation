@@ -101,7 +101,7 @@ Granularity_Pixel=32
 # Call from Local Net
 # Address_Default_Model_Remote = F"http://localhost:8888/sdapi/v1/img2img"
 # Call from Remote Net
-Address_Default_Model_Remote = F"http://y.miaomiao.li:6179/sdapi/v1/img2img"
+Address_Default_Model_Remote = F"http://localhost:7860/sdapi/v1/img2img"
 
 Pipeline=Pipeline(F"configs/3dkenburns.yaml")
 
