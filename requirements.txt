@@ -5,10 +5,13 @@ imgaug
 git+https://github.com/cocodataset/panopticapi.git
 onnxruntime-gpu
 pytorch-lightning
-albumentations
+albumentations==1.1.0
 huggingface_hub
 omegaconf
 diffusers
+accelerate
+matplotlib
+scipy
 
 basicsr
 numba

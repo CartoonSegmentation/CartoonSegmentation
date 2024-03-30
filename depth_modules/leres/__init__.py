@@ -78,7 +78,7 @@ def apply_leres(input_image, thr_a: int = 0, thr_b: int = 0, boost: bool = False
         elif not os.path.exists(model_path):
             # from basicsr.utils.download_util import load_file_from_url
             load_file_from_url(remote_model_path_leres, model_dir=base_model_path)
-            os.rename(os.path.join(base_model_path, 'download'), model_path)
+            # os.rename(os.path.join(base_model_path, 'download'), model_path)
 
         if torch.cuda.is_available():
             checkpoint = torch.load(model_path)

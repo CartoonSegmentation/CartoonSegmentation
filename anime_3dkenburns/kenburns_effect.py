@@ -1055,6 +1055,6 @@ import moviepy.editor
 def npyframes2video(npy_frame_list: List[np.ndarray], video_save_path: str, playback: bool = False):
     sequence = [npyFrame[:, :, ::-1] for npyFrame in npy_frame_list]
     if playback:
-        sequence += list(reversed(npy_frame_list))[1:-1]
+        sequence += sequence[::-1][1:-1]
     moviepy.editor.ImageSequenceClip(sequence=sequence, fps=25).write_videofile(video_save_path, preset="placebo")
 
