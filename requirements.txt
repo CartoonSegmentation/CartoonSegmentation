@@ -12,6 +12,7 @@ diffusers
 accelerate
 matplotlib
 scipy
+transformers
 
 basicsr
 numba

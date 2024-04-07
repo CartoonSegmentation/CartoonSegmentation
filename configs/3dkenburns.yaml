@@ -36,7 +36,7 @@ mask_refine_kwargs:
   refine_method: refinenet_isnet
   refine_size: 720
 
-depth_est: leres
+depth_est: leres  # marigold, zoe, default
 depth_est_size: 640
 det_ckpt: models/AnimeInstanceSegmentation/rtmdetl_e60.ckpt
 det_size: 640

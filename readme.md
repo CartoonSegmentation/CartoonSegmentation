@@ -81,7 +81,13 @@ python naive_interface.py --cfg configs/3dkenburns.yaml
 ```
 and open http://localhost:8080 in your browser.
 
-Please read configs/3dkenburns.yaml for more advanced settings.
+Please read configs/3dkenburns.yaml for more advanced settings.  
+
+To use Marigold as depth estimator, run
+```
+git submodule update --init --recursive
+```
+and set ```depth_est``` to ```marigold``` in configs/3dkenburns.yaml
 
 
 ### Better Inpainting using Stable-diffusion

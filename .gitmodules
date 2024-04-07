@@ -1,0 +1,3 @@
+[submodule "Marigold"]
+	path = Marigold
+	url = https://github.com/prs-eth/Marigold

@@ -218,7 +218,8 @@ class KenBurnsConfig:
     depth_field: bool = False
 
     # mask_refine_kwargs: dict = {}
-    mask_refine_kwargs: dict = field(default_factory=dict) 
+    mask_refine_kwargs: dict = field(default_factory=dict)
+    marigold_kwargs: dict = field(default_factory=dict)
 
     pred_score_thr: float = 0.3
 
@@ -547,9 +548,20 @@ class KenBurnsPipeline:
             self._depth_est = self._depth_est_leres
         elif depth_est == 'default':
             self._depth_est = lambda img_tensor, img, **kwargs : disparity_estimation(img_tensor)
+        elif depth_est == 'marigold':
+            self._depth_est = self._depth_marigold
         else:
             raise NotImplementedError(f'Invalid depth model: {depth_est}')
         
+    def _depth_marigold(self, img_tensor, img, *args, **kwargs):
+        from utils.apply_marigold import apply_marigold
+        depth = apply_marigold(img, **self.cfg.marigold_kwargs)
+        depth = depth.astype(np.float32)
+        depth = torch.from_numpy(depth[None, None, ...]).to(self.device)
+        depth[depth == 0] = depth[depth > 0].min()
+        depth = (1 - depth) * 255
+        return depth
+
     def _depth_est_leres(self, img_tensor, img, *args, **kwargs):
         
         device = self.cfg.depth_est_device
@@ -567,6 +579,7 @@ class KenBurnsPipeline:
         depth[depth == 0] = depth[depth > 0].min()
         # disparity = 1 / depth
         # disparity.nan_to_num_(0, 0, 0)
+        print(depth.min(), depth.max(), depth.shape)
         return depth
 
     def infer_disparity(self, img: Union[np.ndarray, str], instances: AnimeInstances = None, img_tensor: torch.Tensor = None, save_dir: str = None, save_name: str = None, kcfg: KenBurnsConfig = None):
