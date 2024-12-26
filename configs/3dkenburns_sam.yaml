@@ -1,0 +1,47 @@
+# Usage:
+# python tools/run_kenburns.py --cfg configs/3dkenburns.yaml --verbose --input-img "examples/kenburns_lion.png"
+# python naive_interface.py --cfg configs/3dkenburns.yaml
+
+inpaint_type: ldm # or patchmatch, ldm for better result
+detector: sam
+
+# These are parameters to use default 3dkenburns
+# inpaint_type: default
+# default_depth_refine: True
+# detector: maskrcnn
+
+num_frame: 75
+playback: True
+dof_speed: 50
+depth_field: False
+
+max_size: 1024   # Output Video Resolution
+
+
+ldm_inpaint_size: 1024
+ldm_inpaint_options:
+  steps: 32
+  cfg_scale: 7
+  sample_name: 'DPM++ 2M Karras'
+  denoising_strength: 0.75
+  inpainting_fill: 0
+  seed: 0
+  subseed: 0
+  # optional authentication
+  # username: your user name
+  # password: your password
+sd_img2img_url: http://127.0.0.1:7860/sdapi/v1/img2img
+
+mask_refine_kwargs:
+  refine_method: refinenet_isnet
+  refine_size: 720
+
+depth_est: leres  # marigold, zoe, default
+depth_est_size: 640
+det_ckpt: models/AnimeInstanceSegmentation/rtmdetl_e60.ckpt
+det_size: 640
+
+pred_score_thr: 0.3
+refine_crf: False
+
+depth_factor: 1

@@ -24,22 +24,11 @@ Implementations of the paper _Instance-guided Cartoon Editing with a Large-scale
 
 ### Install Dependencies
 
-Install Python 3.10 and pytorch:
-
 ```bash
-conda create -n anime-seg python=3.10
-conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
-conda activate anime-seg
-```
-
-Install mmdet:
-
-```bash
-pip install -U openmim
-mim install mmengine
-mim install "mmcv>=2.0.0"
-mim install mmdet
-pip install -r requirements.txt
+conda env create -f animeins.yaml
+conda activate animeins
+pip uninstall mmcv -y
+pip install mmcv==2.1.0 -f https://download.openmmlab.com/mmcv/dist/cu118/torch2.1/index.html
 ```
 
 ### Download models
@@ -122,6 +111,7 @@ Finally, run 3dkenburns with pre-mentioned commands.
 
 
 ## Run Style Editing
+We are using stable-diffusion-webui @ [bef51aed](https://github.com/AUTOMATIC1111/stable-diffusion-webui/commit/bef51aed032c0aaa5cfd80445bc4cf0d85b408b5) and sd-webui-controlnet @ [aa2aa81](https://github.com/Mikubill/sd-webui-controlnet/commit/aa2aa812e86a1f47ef360572888d66027d640f60).  
 It also requires stable-diffusion-webui, patchmatch, and the danbooru tagger, so please follow the `Run 3d Kenburns` and download/install these first.  
 Download [sd_xl_base_1.0_0.9vae](https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/blob/main/sd_xl_base_1.0_0.9vae.safetensors), style [lora](https://civitai.com/models/124347/xlmoreart-full-xlreal-enhancer) and [diffusers_xl_canny_mid](https://huggingface.co/lllyasviel/sd_control_collection/resolve/main/diffusers_xl_canny_mid.safetensors) and save them to corresponding directory in stable-diffusion-webui, launch stable-diffusion-webui with argument `--argment` and set `sd_xl_base_1.0_0.9vae` as base model, then run
 

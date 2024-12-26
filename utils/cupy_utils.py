@@ -6,8 +6,8 @@ import torch
 
 @cupy.memoize(for_each_device=True)
 def launch_kernel(strFunction, strKernel):
-    if 'CUDA_HOME' not in os.environ:
-        os.environ['CUDA_HOME'] = cupy.cuda.get_cuda_path()
+    # if 'CUDA_HOME' not in os.environ:
+    #     os.environ['CUDA_HOME'] = cupy.cuda.get_cuda_path()
     # end
     # , options=tuple([ '-I ' + os.environ['CUDA_HOME'], '-I ' + os.environ['CUDA_HOME'] + '/include' ])
     return cupy.RawKernel(strKernel, strFunction)

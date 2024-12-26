@@ -9,8 +9,6 @@ import mmcv
 import math
 from PIL import Image
 import os.path as osp
-from pydensecrf.utils import compute_unary, unary_from_softmax
-import pydensecrf.densecrf as dcrf
 from tqdm import tqdm
 
 from utils.effects import bokeh_blur
@@ -639,6 +637,8 @@ class KenBurnsPipeline:
         # quantize_image(7, )
     
         def crf_refine(rawmask, rgbimg):
+            from pydensecrf.utils import compute_unary, unary_from_softmax
+            import pydensecrf.densecrf as dcrf
             if len(rawmask.shape) == 2:
                 rawmask = rawmask[:, :, None]
             mask_softmax = np.concatenate([cv2.bitwise_not(rawmask)[:, :, None], rawmask], axis=2)
@@ -835,11 +835,29 @@ class KenBurnsPipeline:
             # self.animeinsseg.set_mask_threshold(0.2)
             # self.animeinsseg.set_detect_size(self.cfg.det_size)
             self._instence_forward = self.animeinsseg_forward
+        elif detector == 'sam':
+            if self.animeinsseg is None:
+                self.animeinsseg = AnimeInsSeg(self.cfg.det_ckpt, device=self.device)
+            self._instence_forward = self.forward_sam
         elif detector == 'maskrcnn' and self.maskrcnn is None:
             self.maskrcnn = torchvision.models.detection.maskrcnn_resnet50_fpn(pretrained=True).eval().to(self.device)
             self._instence_forward = self.maskrcnn_forward
         else:
             raise NotImplementedError(f'Invalid detector: {detector}')
+
+    def forward_sam(self, img: np.ndarray, img_tensor: torch.Tensor = None):
+        instances = self.animeinsseg.infer(img, self.cfg.pred_score_thr, \
+                                               None, output_type='tensor')
+        from sam import apply_sam
+
+        bbox = [bbox.to(device='cpu', dtype=torch.int32).numpy().tolist() for bbox in instances.bboxes]
+        for b in bbox:
+            b[2] += b[0]
+            b[3] += b[1]
+        masks = apply_sam(img, bbox)
+        masks = torch.tensor(masks, device=instances.masks.device)
+        instances.masks = masks
+        return instances
 
     def run_instance_segmentation(self, img: np.ndarray, scale_down_to_maxsize: bool = True):
         if scale_down_to_maxsize:
@@ -1069,5 +1087,5 @@ def npyframes2video(npy_frame_list: List[np.ndarray], video_save_path: str, play
     sequence = [npyFrame[:, :, ::-1] for npyFrame in npy_frame_list]
     if playback:
         sequence += sequence[::-1][1:-1]
-    moviepy.editor.ImageSequenceClip(sequence=sequence, fps=25).write_videofile(video_save_path, preset="placebo")
+    moviepy.editor.ImageSequenceClip(sequence=sequence, fps=25).write_videofile(video_save_path, preset="veryslow")
 

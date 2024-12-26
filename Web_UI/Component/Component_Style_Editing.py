@@ -86,7 +86,7 @@ Prompt_Positive_Default= F"masterpiece, best quality"
 Prompt_Negative_Default= F"lowres, ((bad anatomy)), ((bad hands)), text, missing finger, extra digits, fewer digits, blurry, ((mutated hands and fingers)), (poorly drawn face), ((mutation)), ((deformed face)), (ugly), ((bad proportions)), ((extra limbs)), extra face, (double head), (extra head), ((extra feet)), monster, logo, cropped, worst quality, low quality, normal quality, jpeg, humpbacked, long body, long neck, ((jpeg artifacts))"
 Prompt_Background_Negative_Default= F"((person)), character, 1girl, 1boy"
 Mask_α_Default=0.6
-Model_Default=F"control_v11p_sd15s2_lineart_anime [3825e83e]"
+Model_Default=F"diffusers_xl_canny_mid [112a778d]"
 Directory_Output_Default=F"repaint_output"
 Progress_Default=F"Display the Progress"
 
@@ -1513,18 +1513,18 @@ def DoOnButton_Run_2Clicking\
 				[
 					{
 						F"input_image" : F"" ,
-						F"module" : F"lineart_anime" ,
+						F"module" : F"canny" ,
 						F"model" : Model_Default ,
 						F"weight" : 1 ,
 						F"resize_mode" : F"Inner Fit (Scale to Fit)" ,
 						F"lowvram" : False ,
 						F"processor_res" : Limit_Resolution ,
-						F"threshold_a" : 64 ,
-						F"threshold_b" : 64 ,
-						F"guidance" : 1 ,
+						# F"threshold_a" : 64 ,
+						# F"threshold_b" : 64 ,
+						F"enabled" : True,
 						F"guidance_start" : 0 ,
 						F"guidance_end" : 1 ,
-						F"guessmode" : False,
+						# F"guessmode" : False,
                         F"pixel_perfect": True,
 					},
 				],

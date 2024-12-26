@@ -16,7 +16,6 @@ transformers
 
 basicsr
 numba
-imgaug
 moviepy
 # ?Pending
 flask

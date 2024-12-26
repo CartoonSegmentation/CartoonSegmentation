@@ -27,14 +27,16 @@ sd_params:
             "module": "canny",
             "model": "diffusers_xl_canny_mid [112a778d]",
             "weight": 1,
+            "processor_res": 1024,
             "resize_mode": "Inner Fit (Scale to Fit)",
             "lowvram": False,
             # "processor_res": resolution,
             # "threshold_a": 64,
             # "threshold_b": 64,
             # "guidance": 1,
-            # "guidance_start": 0,
+            "guidance_start": 0,
             "guidance_end": 1,
-            "pixel_perfect": True
+            "pixel_perfect": True,
+            "enabled": True
         }
       ]

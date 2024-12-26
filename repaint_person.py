@@ -57,7 +57,7 @@ def repaint_img(args, img_path, detector: AnimeInsSeg):
             "controlnet": {
             "args": [
                 {
-                    "input_image": "",
+                    "image": "",
                     "module": "lineart_anime",
                     "model": "control_v11p_sd15s2_lineart_anime [3825e83e]",
                     "weight": 1,
@@ -66,11 +66,10 @@ def repaint_img(args, img_path, detector: AnimeInsSeg):
                     "processor_res": resolution,
                     "threshold_a": 64,
                     "threshold_b": 64,
-                    "guidance": 1,
                     "guidance_start": 0,
                     "guidance_end": 1,
-                    "guessmode": False,
-                    "pixel_perfect": True
+                    "pixel_perfect": True,
+                    "enabled": True
                 }
             ]
             }
@@ -87,7 +86,7 @@ def repaint_img(args, img_path, detector: AnimeInsSeg):
         # prompt = prompt_default
         
         img_b64 = img2b64(img)
-        options_shared['alwayson_scripts']['controlnet']['args'][0]['input_image'] = img_b64
+        options_shared['alwayson_scripts']['controlnet']['args'][0]["image"] = img_b64
         data = {
             "init_images": [img_b64],
             "prompt": prompt,
@@ -128,7 +127,7 @@ def repaint_img(args, img_path, detector: AnimeInsSeg):
         bg = Image.fromarray(bg)
         bg_b64 = img2b64(bg)
 
-        options_shared['alwayson_scripts']['controlnet']['args'][0]['input_image'] = bg_b64
+        options_shared['alwayson_scripts']['controlnet']['args'][0]["image"] = bg_b64
         data = {
             "init_images": [bg_b64],
             "prompt": bg_prompt,
@@ -162,7 +161,7 @@ def repaint_img(args, img_path, detector: AnimeInsSeg):
         prompt = tags.replace(' ', ',') + ',' + prompt_default
         # prompt = prompt_default
 
-        options_shared['alwayson_scripts']['controlnet']['args'][0]['input_image'] = img_b64
+        options_shared['alwayson_scripts']['controlnet']['args'][0]["image"] = img_b64
         request = {
             "init_images": [img_b64],
             "mask": mask_b64,
